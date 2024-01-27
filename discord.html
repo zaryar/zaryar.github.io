@@ -1,10 +1,47 @@
-<!DOCTYPE html>
 <html>
 <head>
-	<title>discord</title>
+    <title>Discord</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-color: #7289da;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        h1, p, .discord-icon {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInMoveUp 2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            animation-delay: 0.6s;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            animation-delay: 1.2s;
+        }
+        .discord-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            animation-delay: 0s;
+        }
+        @keyframes fadeInMoveUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
-    for some reason discord made perma invite link for community discords only.
-    You can add me tho if you have questions: zaryar
+    <i class="fab fa-discord discord-icon"></i>
+    <h1>Welcome to my Discord page!</h1>
+    <p>For some reason, Discord made permanent invite links for community Discords only.</p>
+    <p>You can add me though if you have questions: <strong>zaryar</strong></p>
 </body>
 </html>
