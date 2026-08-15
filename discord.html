@@ -1,47 +1,187 @@
-<html>
+<!DOCTYPE html>
+<html lang="de">
 <head>
-    <title>Discord</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ZaryaR Discord Kontakt">
+    <title>Discord – ZaryaR</title>
+    <!-- Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            background-color: #7289da;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
+            min-height: 100vh;
+            min-height: 100dvh;
+            background: linear-gradient(135deg, #1e1f22 0%, #2b2d31 50%, #5865F2 100%);
+            color: #ffffff;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
-        h1, p, .discord-icon {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInMoveUp 2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+
+        .card {
+            background: rgba(30, 31, 34, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 40px 32px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            animation: cardEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        h1 {
-            font-size: 2em;
-            margin-bottom: 20px;
-            animation-delay: 0.6s;
-        }
-        p {
-            font-size: 1.2em;
-            line-height: 1.6;
-            animation-delay: 1.2s;
-        }
-        .discord-icon {
-            font-size: 3em;
-            margin-bottom: 20px;
-            animation-delay: 0s;
-        }
-        @keyframes fadeInMoveUp {
+
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.96);
+            }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
+        }
+
+        .discord-icon {
+            width: 72px;
+            height: 72px;
+            fill: #5865F2;
+            filter: drop-shadow(0 4px 12px rgba(88, 101, 242, 0.4));
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .discord-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        h1 {
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        p {
+            font-size: 1.05rem;
+            color: #dbdee1;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .user-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(88, 101, 242, 0.4);
+            border-radius: 12px;
+            padding: 12px 18px;
+            margin: 24px 0 28px 0;
+            gap: 12px;
+        }
+
+        .username {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.05em;
+        }
+
+        .copy-btn {
+            background: #5865F2;
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: inherit;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .copy-btn:hover {
+            background: #4752c4;
+            transform: translateY(-1px);
+        }
+
+        .copy-btn:active {
+            transform: scale(0.96);
+        }
+
+        .copy-btn.copied {
+            background: #23a55a;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #949ba4;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.2s ease, transform 0.2s ease;
+            padding: 8px 16px;
+        }
+
+        .back-link:hover {
+            color: #ffffff;
+            transform: translateX(-3px);
         }
     </style>
 </head>
 <body>
-    <i class="fab fa-discord discord-icon"></i>
-    <h1>Welcome to my Discord page!</h1>
-    <p>For some reason, Discord made permanent invite links for community Discords only.</p>
-    <p>You can add me though if you have questions: <strong>zaryar</strong></p>
+    <div class="card">
+        <svg class="discord-icon" viewBox="0 0 127.14 96.36" xmlns="http://www.w3.org/2000/svg" aria-label="Discord">
+            <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,45.91,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,45.91,96.12,53,91.08,65.69,84.69,65.69Z"/>
+        </svg>
+
+        <h1>Discord Kontakt</h1>
+        <p>Discord erlaubt permanente Einladungslinks leider nur für Community-Server.</p>
+        <p>Du kannst mich aber direkt als Freund hinzufügen:</p>
+
+        <div class="user-box">
+            <span class="username" id="discord-tag">zaryar</span>
+            <button class="copy-btn" id="copy-btn" onclick="copyDiscordTag()">
+                <span id="btn-text">Kopieren</span>
+            </button>
+        </div>
+
+        <div>
+            <a href="index.html" class="back-link">← Zurück zur Startseite</a>
+        </div>
+    </div>
+
+    <script>
+        function copyDiscordTag() {
+            const tag = document.getElementById('discord-tag').innerText;
+            navigator.clipboard.writeText(tag).then(() => {
+                const btn = document.getElementById('copy-btn');
+                const btnText = document.getElementById('btn-text');
+                btn.classList.add('copied');
+                btnText.innerText = 'Kopiert! ✓';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btnText.innerText = 'Kopieren';
+                }, 2000);
+            }).catch(err => {
+                console.error('Kopieren fehlgeschlagen:', err);
+            });
+        }
+    </script>
 </body>
 </html>

@@ -1,30 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Offizielle Website von ZaryaR – YouTube, GitHub, Discord und Portfolio.">
     <title>Zaryar's Website</title>
+    <!-- Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    
-    <img src="bg1.gif" alt="background" id="bg-gif">
-    <script src="https://embed.radio.co/player/28e6a16.js"></script>
+    <img src="bg1.gif" alt="" id="bg-gif" aria-hidden="true">
 
-    <div class="center">
-        
+    <!-- Draggable & Minimizable Radio Window -->
+    <aside class="radio-window" id="radio-window" aria-label="Live Radio Player">
+        <div class="radio-titlebar" id="radio-titlebar">
+            <div class="titlebar-left">
+                <span class="titlebar-icon">📻</span>
+                <span class="titlebar-text">Live Radio</span>
+                <span class="live-dot" title="Live Stream"></span>
+            </div>
+            <div class="titlebar-controls">
+                <button class="win-btn win-minimize" id="radio-min-btn" aria-label="Radio minimieren" title="Minimieren">
+                    <svg width="10" height="2" viewBox="0 0 10 2"><rect width="10" height="2" fill="currentColor"/></svg>
+                </button>
+            </div>
+        </div>
+        <div class="radio-body">
+            <script src="https://embed.radio.co/player/28e6a16.js"></script>
+        </div>
+    </aside>
+
+    <!-- Taskbar / Dock when minimized -->
+    <div id="taskbar" class="taskbar" aria-label="Taskleiste">
+        <button id="taskbar-radio-btn" class="taskbar-btn" aria-label="Radio wiederherstellen" title="Radio öffnen">
+            <span class="taskbar-icon">📻</span>
+            <span class="taskbar-label">Live Radio</span>
+            <span class="live-dot"></span>
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <main class="center">
         <h1>Welcome ZaryaR</h1>
 
-        <ul>
-            <li><a href="https://www.youtube.com/@ZaryarWasTaken" target="_blank" class="bouncy">Youtube</a></li>
-            <li><a href="https://github.com/zaryar" target="_blank" class="bouncy" style="animation-delay:0.07s">Github</a></li>
-            <li><a href="discord.html" target="_blank" class="bouncy" style="animation-delay:0.14s">Discord</a></li>
-            <li><a href="https://www.unknowncheats.me/forum/members/1073629.html" target="_blank" class="bouncy" style="animation-delay:0.21s">UC</a></li>
-            <li><a href="https://zaryar.github.io/Portfolio/" target="_blank" class="bouncy" style="animation-delay:0.28s">About</a></li>
-        </ul>
-    </div>
+        <nav aria-label="Social Links">
+            <ul class="nav-links">
+                <li><a href="https://www.youtube.com/@ZaryarWasTaken" target="_blank" rel="noopener noreferrer" class="bouncy">Youtube</a></li>
+                <li><a href="https://github.com/zaryar" target="_blank" rel="noopener noreferrer" class="bouncy" style="animation-delay:0.07s">Github</a></li>
+                <li><a href="discord.html" class="bouncy" style="animation-delay:0.14s">Discord</a></li>
+                <li><a href="https://www.unknowncheats.me/forum/members/1073629.html" target="_blank" rel="noopener noreferrer" class="bouncy" style="animation-delay:0.21s">UC</a></li>
+                <li><a href="https://zaryar.github.io/Portfolio/" target="_blank" rel="noopener noreferrer" class="bouncy" style="animation-delay:0.28s">About</a></li>
+            </ul>
+        </nav>
+    </main>
 
     <canvas id="myCanvas"></canvas>
     
     <script src="perlin.js"></script>
     <script src="script.js"></script>
+    <script src="radio.js"></script>
 </body>
 </html>

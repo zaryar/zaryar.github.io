@@ -1,19 +1,23 @@
-
-
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
-let width, height;
-let forces = [], particles = [];
-let nParticles = 250;
+
+let width = window.innerWidth;
+let height = window.innerHeight;
+let forces = [];
+let particles = [];
+const nParticles = 250;
 let p = 0;
 
-noise.seed(Math.random());
-let lastMoveTime = Date.now(); 
+if (typeof noise !== 'undefined') {
+  noise.seed(Math.random());
+}
+
+let lastMoveTime = Date.now();
 
 class V2 {
-  constructor(x, y) {
-    this.x = x || 0;
-    this.y = y || 0;
+  constructor(x = 0, y = 0) {
+    this.x = x;
+    this.y = y;
   }
   add(vector) {
     this.x += vector.x;
@@ -24,49 +28,57 @@ class V2 {
     this.y = y;
   }
   lerp(vector, n) {
-    this.x += (vector.x - this.x)*n;
-    this.y += (vector.y - this.y)*n;
+    this.x += (vector.x - this.x) * n;
+    this.y += (vector.y - this.y) * n;
   }
 }
 
 class Particle {
-  constructor(x,y) {
-    this.position = new V2(-100,-100);
+  constructor() {
+    this.position = new V2(-100, -100);
     this.velocity = new V2();
     this.acceleration = new V2();
     this.alpha = 0;
     this.color = '#000000';
-    this.points = [new V2(-10 + Math.random()*20, -10 + Math.random()*20),
-                   new V2(-10 + Math.random()*20, -10 + Math.random()*20),
-                   new V2(-10 + Math.random()*20, -10 + Math.random()*20)];
+    this.points = [
+      new V2(-10 + Math.random() * 20, -10 + Math.random() * 20),
+      new V2(-10 + Math.random() * 20, -10 + Math.random() * 20),
+      new V2(-10 + Math.random() * 20, -10 + Math.random() * 20)
+    ];
   }
-  
+
   update() {
     this.velocity.add(this.acceleration);
     this.position.add(this.velocity);
-    this.acceleration.reset(0,0);
+    this.acceleration.reset(0, 0);
     this.alpha -= 0.008;
     if (this.alpha < 0) this.alpha = 0;
   }
-  
+
   follow() {
-    var x = Math.floor(this.position.x / 20);
-    var y = Math.floor(this.position.y / 20);
-    var index = x * Math.floor(height/20) + y;
-    var force = forces[index];
-    if (force) this.applyForce(force);
+    const x = Math.floor(this.position.x / 20);
+    const y = Math.floor(this.position.y / 20);
+    const rows = Math.floor(height / 20);
+    const cols = Math.floor(width / 20);
+
+    if (x >= 0 && x < cols && y >= 0 && y < rows) {
+      const index = x * rows + y;
+      const force = forces[index];
+      if (force) this.applyForce(force);
+    }
   }
 
   applyForce(force) {
     this.acceleration.add(force);
   }
-  
+
   draw() {
+    if (this.alpha <= 0) return;
     ctx.globalAlpha = this.alpha;
     ctx.beginPath();
-    ctx.moveTo(this.position.x+this.points[0].x, this.position.y+this.points[0].y);
-    ctx.lineTo(this.position.x+this.points[1].x, this.position.y+this.points[1].y);
-    ctx.lineTo(this.position.x+this.points[2].x, this.position.y+this.points[2].y);
+    ctx.moveTo(this.position.x + this.points[0].x, this.position.y + this.points[0].y);
+    ctx.lineTo(this.position.x + this.points[1].x, this.position.y + this.points[1].y);
+    ctx.lineTo(this.position.x + this.points[2].x, this.position.y + this.points[2].y);
     ctx.closePath();
     ctx.fillStyle = this.color;
     ctx.fill();
@@ -74,73 +86,79 @@ class Particle {
 }
 
 const resize = () => {
+  const dpr = window.devicePixelRatio || 1;
   width = window.innerWidth;
   height = window.innerHeight;
-  canvas.width = width;
-  canvas.height = height;
+
+  canvas.width = width * dpr;
+  canvas.height = height * dpr;
+  canvas.style.width = `${width}px`;
+  canvas.style.height = `${height}px`;
+
+  ctx.scale(dpr, dpr);
   initForces();
-}
+};
 
 const initForces = () => {
-  var i = 0;
-  for (var x = 0; x < width; x+=20) {
-    for (var y = 0; y < height; y+=20) {
+  let i = 0;
+  for (let x = 0; x < width; x += 20) {
+    for (let y = 0; y < height; y += 20) {
       if (!forces[i]) forces[i] = new V2();
       i++;
     }
   }
-  
   if (i < forces.length) {
-    forces.splice(i+1);
+    forces.splice(i);
   }
-}
+};
 
 const updateForces = (t) => {
-  var i = 0;
-  var xOff = 0, yOff = 0;
-  for (var x = 0; x < width; x+=20) {
+  if (typeof noise === 'undefined') return;
+  let i = 0;
+  let xOff = 0;
+  for (let x = 0; x < width; x += 20) {
     xOff += 0.1;
-    for (var y = 0; y < height; y+=20) {
+    let yOff = 0;
+    for (let y = 0; y < height; y += 20) {
       yOff += 0.1;
-      let a = noise.perlin3(xOff, yOff, t*0.00005) * Math.PI * 4;
-      if (forces[i]) forces[i].reset(Math.cos(a)*0.1, Math.sin(a)*0.1);
+      const a = noise.perlin3(xOff, yOff, t * 0.00005) * Math.PI * 4;
+      if (forces[i]) {
+        forces[i].reset(Math.cos(a) * 0.1, Math.sin(a) * 0.1);
+      }
       i++;
     }
   }
-}
+};
 
 const initParticles = () => {
-  for (var i = 0; i < nParticles; i++) {
-    particles.push(new Particle(Math.random()*width, Math.random()*height));
-    particles[i].velocity.y = 0.1;
+  particles = [];
+  for (let i = 0; i < nParticles; i++) {
+    particles.push(new Particle());
   }
-}
+};
 
 const drawParticles = () => {
-  console.log('Drawing particles...');
-  for (var i = 0; i < nParticles; i++) {
+  for (let i = 0; i < nParticles; i++) {
     particles[i].update();
     particles[i].follow();
     particles[i].draw();
   }
-}
+};
 
 const launchParticle = () => {
   const timeSinceLastMove = Date.now() - lastMoveTime;
-  if (timeSinceLastMove < 100) { // Only launch particles if the mouse has moved in the last second
-    console.log('Launching particle...'); 
+  if (timeSinceLastMove < 250) {
     particles[p].position.reset(emitter.x, emitter.y);
-    particles[p].velocity.reset(-1+ Math.random()*2, -1+Math.random()*2);
-    particles[p].color = `hsl(${Math.floor(emitter.x/width*256)},40%,${60+Math.random()*20}%)`;
-    particles[p].alpha = 0.7;
-    p++;
-    if (p === nParticles) p = 0;
+    particles[p].velocity.reset(-1 + Math.random() * 2, -1 + Math.random() * 2);
+    particles[p].color = `hsl(${Math.floor((emitter.x / (width || 1)) * 256)}, 65%, ${60 + Math.random() * 20}%)`;
+    particles[p].alpha = 0.75;
+    p = (p + 1) % nParticles;
   }
-}
+};
 
 const updateEmitter = () => {
   emitter.lerp(mouse, 0.2);
-}
+};
 
 const animate = (t) => {
   ctx.clearRect(0, 0, width, height);
@@ -150,22 +168,23 @@ const animate = (t) => {
   updateForces(t);
   drawParticles();
   requestAnimationFrame(animate);
-}
+};
+
+const mouse = new V2(window.innerWidth / 2, window.innerHeight / 2);
+const emitter = new V2(window.innerWidth / 2, window.innerHeight / 2);
 
 const pointerMove = (e) => {
-  mouse.x = e.touches ? e.touches[0].pageX : e.pageX;
-  mouse.y = e.touches ? e.touches[0].pageY : e.pageY;
-  lastMoveTime = Date.now(); // Update the last move time whenever the mouse moves
-}
+  const pageX = e.touches ? e.touches[0].pageX : e.pageX;
+  const pageY = e.touches ? e.touches[0].pageY : e.pageY;
+  mouse.x = pageX;
+  mouse.y = pageY;
+  lastMoveTime = Date.now();
+};
 
-let mouse = new V2(window.innerWidth/2, window.innerHeight/2);
-let emitter = new V2(window.innerWidth/2, window.innerHeight/2);
 resize();
 initParticles();
 requestAnimationFrame(animate);
 
-window.addEventListener('resize', resize);
-window.addEventListener('mousemove', pointerMove);
-window.addEventListener('touchmove', pointerMove);
-
-
+window.addEventListener('resize', resize, { passive: true });
+window.addEventListener('pointermove', pointerMove, { passive: true });
+window.addEventListener('touchmove', pointerMove, { passive: true });
