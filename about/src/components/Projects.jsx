@@ -1,9 +1,26 @@
 import React from 'react';
-import { Github, PlayCircle, Eye, Code2, Gamepad2, Layers, Smartphone, ExternalLink } from 'lucide-react';
+import { Github, PlayCircle, Eye, Code2, Gamepad2, Layers, Smartphone, ExternalLink, ShieldCheck, Sparkles } from 'lucide-react';
 
 const projects = [
   {
     id: 1,
+    title: '1Skin / HexSkin Studio',
+    icon: Sparkles,
+    color: '#e5c07b', // Hextech Gold
+    description:
+      'Ein Hextech-Dashboard für League of Legends zum intelligenten Loot-Craften, Entzaubern und automatischen Ausrüsten von Lieblingsskins über die lokale LCU-API.',
+    languages: ['Python', 'LCU REST API', 'Automation', 'git'],
+    links: [
+      {
+        label: 'GitHub Repository',
+        url: 'https://github.com/zaryar/1Skin',
+        icon: Github,
+        primary: true,
+      },
+    ],
+  },
+  {
+    id: 2,
     title: 'AquaDefender GameProject',
     icon: Gamepad2,
     color: '#00f0ff', // Cyan
@@ -26,7 +43,7 @@ const projects = [
     ],
   },
   {
-    id: 2,
+    id: 3,
     title: 'Song / Sorting Visualizer',
     icon: Layers,
     color: '#ffb347', // Amber
@@ -49,7 +66,7 @@ const projects = [
     ],
   },
   {
-    id: 3,
+    id: 4,
     title: 'SleepSpeak',
     icon: Smartphone,
     color: '#a855f7', // Purple
